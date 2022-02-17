@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 
 
@@ -68,3 +69,14 @@ def process_data(
 
     X = np.concatenate([X_continuous, X_categorical], axis=1)
     return X, y, encoder, lb
+
+
+# if __name__ == "__main__":
+#     path = 'clean_census.csv'
+#     categorical_features = ['education', 'marital-status', 'relationship',
+#                        'race', 'sex', 'occupation', 'workclass', 'native-country']
+#     target = 'salary'
+#     data = pd.read_csv(path)
+#     X, y, encoder, lb = process_data(X=data,
+#                  categorical_features=categorical_features,
+#                  label=target)

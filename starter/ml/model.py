@@ -1,4 +1,13 @@
+#!/usr/bin/env python3
+
+import logging
+import numpy as np
+import pandas as pd
+
 from sklearn.metrics import fbeta_score, precision_score, recall_score
+from sklearn.ensemble import RandomForestClassifier
+
+import data
 
 
 # Optional: implement hyperparameter tuning.
@@ -17,8 +26,9 @@ def train_model(X_train, y_train):
     model
         Trained machine learning model.
     """
-
-    pass
+    model = RandomForestClassifier(n_estimators=100)
+    model.fit(X_train, y_train)
+    return model
 
 
 def compute_model_metrics(y, preds):
@@ -48,7 +58,7 @@ def inference(model, X):
 
     Inputs
     ------
-    model : ???
+    model : RandomForestClassifier
         Trained machine learning model.
     X : np.array
         Data used for prediction.
@@ -57,4 +67,21 @@ def inference(model, X):
     preds : np.array
         Predictions from the model.
     """
-    pass
+    predictions = model.predict(X)
+    return predictions
+
+
+if __name__ == "__main__":
+    path = 'clean_census.csv'
+    categorical_features = ['education', 'marital-status', 'relationship',
+                            'race', 'sex', 'occupation', 'workclass', 'native-country']
+    target = 'salary'
+    data_ = pd.read_csv(path)
+    X, y, encoder, lb = data.process_data(X=data_,
+                                     categorical_features=categorical_features,
+                                     label=target)
+
+    model = train_model(X, y)
+    predictions = inference(model, X)
+    precision, recall, fbeta = compute_model_metrics(y, predictions)
+    print(precision)
