@@ -42,5 +42,11 @@ jobs:
            In addition, please resolve other issues, if any. 
         fields: '{"components": [{"name":"nd0821 - ML DevOpsEngineer ND"}], "customfield_16449":"https://classroom.udacity.com/", "customfield_16450":"Resolve the PR", "labels": ["github"], "priority":{"id": "4"}}'
 
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        role-to-assume: arn:aws:iam::123456789100:role/my-github-actions-role
+        aws-region: us-east-1
+
     - name: Log created issue
       run: echo "Issue ${{ steps.create.outputs.issue }} was created"
