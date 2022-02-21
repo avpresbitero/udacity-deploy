@@ -1,5 +1,5 @@
 import pandas as pd
-from model import compute_model_metrics, inference
+from starter.ml.model import compute_model_metrics, inference
 
 
 def data_slice_metric(df, X, y, model, feature):
@@ -15,12 +15,13 @@ def data_slice_metric(df, X, y, model, feature):
     df = df.reset_index(drop=True)
     for i in df[feature].unique():
         # Access a group of columns and rows by labels
-        slice_labels = X.loc[df[feature] == i]
+        # Outputs a dataframe
+        slice_labels = df[df[feature] == i]
         X_slice = X[slice_labels.index.values, :]
-        y_slice = y[slice.index.values]
+        y_slice = y[slice_labels.index.values]
 
         slice_predictions = inference(model, X_slice)
-        precision, recall, fbeta = compute_model_metrics(y, slice_predictions)
+        precision, recall, fbeta = compute_model_metrics(y_slice, slice_predictions)
 
         metric['feature'].append(feature)
         metric['value'].append(i)
@@ -28,8 +29,10 @@ def data_slice_metric(df, X, y, model, feature):
         metric['recall'].append(recall)
         metric['fbeta'].append(fbeta)
 
-    metric_df = pd.DataFrame.from_dic(metric)
-    metric_df.to_csv(f'/model/{feature}_slice_data.csv')
+        print(f"For value {i}, precision = {precision}, recall = {recall}, fbeta = {fbeta}")
+
+    metric_df = pd.DataFrame(metric)
+    metric_df.to_csv(f'../data/{feature}_slice_data.csv')
 
 
 

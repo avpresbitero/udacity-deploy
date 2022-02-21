@@ -51,7 +51,6 @@ class Input(BaseModel):
 class Output(BaseModel):
     prediction: str
 
-
 app = FastAPI()
 
 with open("model/model.pkl", "rb") as file:
