@@ -43,6 +43,12 @@ model = train_model(X_train, y_train)
 with open("../model/model.pkl", "wb") as output_file:
     pickle.dump(model, output_file)
 
+with open("../model/encoder.pkl", "wb") as output_file:
+    pickle.dump(encoder, output_file)
+
+with open("../model/lb.pkl", "wb") as output_file:
+    pickle.dump(lb, output_file)
+
 predictions = inference(model, X_test)
 precision, recall, fbeta = compute_model_metrics(y_test, predictions)
 #
