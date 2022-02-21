@@ -31,37 +31,18 @@ class Input(BaseModel):
     capital_loss: int = 0
     hours_per_week: int = 20
 
-
-# class Input(BaseModel):
-#     age : int = 40
-#     workclass : str = 'private'
-#     fnlgt: int = 201490
-#     education: str = 'doctorate'
-#     education_num: int = 16
-#     marital_status: str = 'married-civ-spouse'
-#     occupation: str = 'prof-specialty'
-#     relationship: str = 'husband'
-#     race: str = 'white'
-#     sex: str = 'male'
-#     capital_gain: int = 0
-#     capital_loss: int = 0
-#     hours_per_week: int = 60
-
-
 class Output(BaseModel):
     prediction: str
 
 app = FastAPI()
 
-root_dir = '/home/runner/work/udacity-deploy/udacity-deploy/'
-
-with open(root_dir + "model/model.pkl", "rb") as file:
+with open("udacity-deploy/model/model.pkl", "rb") as file:
     model = pickle.load(file)
 
-with open(root_dir + "model/encoder.pkl", "rb") as file:
+with open("udacity-deploy/model/encoder.pkl", "rb") as file:
     encoder = pickle.load(file)
 
-with open(root_dir + "model/lb.pkl", "rb") as file:
+with open("udacity-deploy/model/lb.pkl", "rb") as file:
     lb = pickle.load(file)
 
 cat_features = [
