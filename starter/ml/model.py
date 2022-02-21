@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 
-import logging
-import numpy as np
 import pandas as pd
-import data
+from starter.ml.data import process_data
 
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
@@ -103,7 +101,7 @@ if __name__ == "__main__":
                             'race', 'sex', 'occupation', 'workclass', 'native-country']
     target = 'salary'
     data_ = pd.read_csv(path)
-    X, y, encoder, lb = data.process_data(X=data_,
+    X, y, encoder, lb = process_data(X=data_,
                                      categorical_features=categorical_features,
                                      label=target)
 
