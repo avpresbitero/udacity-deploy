@@ -36,13 +36,13 @@ class Output(BaseModel):
 
 app = FastAPI()
 
-with open("udacity-deploy/model/model.pkl", "rb") as file:
+with open("model/model.pkl", "rb") as file:
     model = pickle.load(file)
 
-with open("udacity-deploy/model/encoder.pkl", "rb") as file:
+with open("model/encoder.pkl", "rb") as file:
     encoder = pickle.load(file)
 
-with open("udacity-deploy/model/lb.pkl", "rb") as file:
+with open("model/lb.pkl", "rb") as file:
     lb = pickle.load(file)
 
 cat_features = [
