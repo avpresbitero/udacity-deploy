@@ -53,13 +53,15 @@ class Output(BaseModel):
 
 app = FastAPI()
 
-with open("/model/model.pkl", "rb") as file:
+root_dir = '/home/runner/work/udacity-deploy/udacity-deploy/'
+
+with open(root_dir + "model/model.pkl", "rb") as file:
     model = pickle.load(file)
 
-with open("/model/encoder.pkl", "rb") as file:
+with open(root_dir + "model/encoder.pkl", "rb") as file:
     encoder = pickle.load(file)
 
-with open("/model/lb.pkl", "rb") as file:
+with open(root_dir + "model/lb.pkl", "rb") as file:
     lb = pickle.load(file)
 
 cat_features = [
