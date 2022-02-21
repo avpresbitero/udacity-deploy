@@ -1,1 +1,1 @@
-web: gunicorn gettingstarted.wsgi
+web: gunicorn udacity-deploy-app.wsgi --log-file -
