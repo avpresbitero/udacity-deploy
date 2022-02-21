@@ -1,5 +1,4 @@
 from fastapi.testclient import TestClient
-import requests
 import pandas as pd
 
 # Import our app from main.py.
@@ -35,7 +34,7 @@ def test_post_status_code():
                           "capital-loss": 0,
                           "hours-per-week": 20}])
 
-    response = requests.post("http://127.0.0.1:8000/", data=data)
+    response = client.post("/predict", json=data)
     assert response.status_code == 200
 
 
@@ -55,7 +54,7 @@ def test_post_predict_less():
                                 "capital-loss": 0,
                                 "hours-per-week": 20}])
 
-    response = requests.post("http://127.0.0.1:8000/", data=data)
+    response = client.post("/predict", json=data)
     prediction = response.json()
     assert prediction['prediction'] == "Salary <= 50k"
 
@@ -75,6 +74,6 @@ def test_post_predict_greater():
                           "capital-loss": 0,
                           "hours-per-week": 60}])
 
-    response = requests.post("http://127.0.0.1:8000/", data=data)
+    response = client.post("/predict", json=data)
     prediction = response.json()
     assert prediction['prediction'] == "Salary > 50k"
