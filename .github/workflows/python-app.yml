@@ -34,3 +34,9 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
+
+    - name: Setup DVC
+      uses: iterative/setup-dvc@v1
+
+    - name: Pull data from DVC
+      run: dvc pull --force
