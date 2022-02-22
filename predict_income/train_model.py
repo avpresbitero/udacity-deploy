@@ -5,9 +5,9 @@ import pickle
 from sklearn.model_selection import train_test_split
 
 # Add the necessary imports for the starter code.
-from starter.ml.data import process_data
-from starter.ml.model import train_model, inference, compute_model_metrics
-from starter.ml.slice_data import data_slice_metric
+from predict_income.ml.data import process_data
+from predict_income.ml.model import train_model, inference, compute_model_metrics
+from predict_income.ml.slice_data import data_slice_metric
 
 # Add code to load in the data.
 path = '../data/clean_census.csv'

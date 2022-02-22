@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import pandas as pd
-from starter.ml.data import process_data
+from predict_income.ml.data import process_data
 
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier

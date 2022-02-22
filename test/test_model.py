@@ -1,7 +1,7 @@
 import pandas as pd
 
-from starter.ml.model import train_model
-from starter.ml.data import process_data
+from predict_income.ml.model import train_model
+from predict_income.ml.data import process_data
 
 from sklearn.ensemble import RandomForestClassifier
 

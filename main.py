@@ -2,13 +2,14 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-from starter.ml.data import process_data
-from starter.ml.model import inference
+from predict_income.ml.data import process_data
+from predict_income.ml.model import inference
 
 import pickle
 import pandas as pd
-
 import os
+
+CURRENT_DIRECTORY = os.path.abspath(os.path.dirname(__file__))
 
 if "DYNO" in os.environ and os.path.isdir(".dvc"):
     os.system("dvc config core.no_scm true")
@@ -16,44 +17,60 @@ if "DYNO" in os.environ and os.path.isdir(".dvc"):
         exit("dvc pull failed")
     os.system("rm -r .dvc .apt/usr/lib/dvc")
 
+
 class Input(BaseModel):
-    age : int = 18
-    workclass : str = 'state-gov'
+    # age : int = 18
+    # workclass : str = 'state-gov'
+    # fnlgt: int = 201490
+    # education: str = 'bachelors'
+    # education_num: int = 9
+    # marital_status: str = 'never-married'
+    # occupation: str = 'handlers-cleaners'
+    # relationship: str = 'own-child'
+    # race: str = 'white'
+    # sex: str = 'female'
+    # capital_gain: int = 0
+    # capital_loss: int = 0
+    # hours_per_week: int = 20
+
+    age: int = 50
+    workclass: str = 'private'
     fnlgt: int = 201490
-    education: str = 'bachelors'
-    education_num: int = 9
-    marital_status: str = 'never-married'
-    occupation: str = 'handlers-cleaners'
-    relationship: str = 'own-child'
+    education: str = 'doctorate'
+    education_num: int = 16
+    marital_status: str = 'married-civ-spouse'
+    occupation: str = 'prof-specialty'
+    relationship: str = 'husband'
     race: str = 'white'
-    sex: str = 'female'
+    sex: str = 'male'
     capital_gain: int = 0
     capital_loss: int = 0
-    hours_per_week: int = 20
+    hours_per_week: int = 60
+
 
 class Output(BaseModel):
     prediction: str
 
-app = FastAPI()
 
-with open("model/model.pkl", "rb") as file:
-    model = pickle.load(file)
+app = FastAPI(title="Census Data Income Predictor",
+    description="Income classification from census data.")
 
-with open("model/encoder.pkl", "rb") as file:
-    encoder = pickle.load(file)
 
-with open("model/lb.pkl", "rb") as file:
-    lb = pickle.load(file)
+@app.on_event("startup")
+def startup_event():
+    """
+    Additionally load model and encoder on startup for faster predictions
+    """
+    global ENCODER
+    global MODEL
+    global LB
 
-cat_features = [
-    "workclass",
-    "education",
-    "marital-status",
-    "occupation",
-    "relationship",
-    "race",
-    "sex"
-]
+    with open(CURRENT_DIRECTORY + "/model/encoder.pkl", "rb") as f:
+        ENCODER = pickle.load(f)
+    with open(CURRENT_DIRECTORY + "/model/model.pkl", "rb") as f:
+        MODEL = pickle.load(f)
+    with open(CURRENT_DIRECTORY + "/model/lb.pkl", "rb") as f:
+        LB = pickle.load(f)
 
 
 @app.get("/")
@@ -63,6 +80,16 @@ async def get():
 
 @app.post("/predict")
 async def post(data: Input):
+    cat_features = [
+        "workclass",
+        "education",
+        "marital-status",
+        "occupation",
+        "relationship",
+        "race",
+        "sex"
+    ]
+
     input_data = pd.DataFrame([{"age" : data.age,
                         "workclass" : data.workclass,
                         "fnlgt" : data.fnlgt,
@@ -80,12 +107,11 @@ async def post(data: Input):
     X, _, _, _ = process_data(input_data,
                            categorical_features=cat_features,
                            training=False,
-                              encoder=encoder,
-                              lb=lb)
+                              encoder=ENCODER,
+                              lb=LB)
 
-    prediction = inference(model, X)
-    print (prediction)
-
+    prediction = inference(MODEL, X)
+    print(prediction)
     if prediction[0] == 1:
         return {"prediction": "Salary > 50k"}
     else:

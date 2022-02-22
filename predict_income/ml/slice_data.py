@@ -1,5 +1,5 @@
 import pandas as pd
-from starter.ml.model import compute_model_metrics, inference
+from predict_income.ml.model import compute_model_metrics, inference
 
 
 def data_slice_metric(df, X, y, model, feature):
