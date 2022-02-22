@@ -1,6 +1,7 @@
 # Script to train machine learning model.
 import pandas as pd
 import pickle
+import os
 
 from sklearn.model_selection import train_test_split
 
@@ -9,8 +10,11 @@ from predict_income.ml.data import process_data
 from predict_income.ml.model import train_model, inference, compute_model_metrics
 from predict_income.ml.slice_data import data_slice_metric
 
+CURRENT_DIRECTORY = os.path.abspath(os.path.dirname(__file__))
+
+
 # Add code to load in the data.
-path = '../data/clean_census.csv'
+path = CURRENT_DIRECTORY + '/data/clean_census.csv'
 data = pd.read_csv(path).drop("native-country", axis=1)
 
 # set training boolean

@@ -61,15 +61,15 @@ def startup_event():
     """
     Additionally load model and encoder on startup for faster predictions
     """
-    global ENCODER
-    global MODEL
-    global LB
 
     with open(CURRENT_DIRECTORY + "/model/encoder.pkl", "rb") as f:
+        global ENCODER
         ENCODER = pickle.load(f)
     with open(CURRENT_DIRECTORY + "/model/model.pkl", "rb") as f:
+        global MODEL
         MODEL = pickle.load(f)
     with open(CURRENT_DIRECTORY + "/model/lb.pkl", "rb") as f:
+        global LB
         LB = pickle.load(f)
 
 
