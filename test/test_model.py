@@ -9,7 +9,7 @@ CURRENT_DIRECTORY = os.path.abspath(os.path.dirname(__file__))
 
 
 def test_train_model():
-    path = CURRENT_DIRECTORY + '/data/clean_census.csv'
+    path = CURRENT_DIRECTORY + './data/clean_census.csv'
     categorical_features = ['education', 'marital-status', 'relationship',
                             'race', 'sex', 'occupation', 'workclass', 'native-country']
     target = 'salary'
