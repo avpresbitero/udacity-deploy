@@ -19,20 +19,6 @@ if "DYNO" in os.environ and os.path.isdir(".dvc"):
 
 
 class Input(BaseModel):
-    # age : int = 18
-    # workclass : str = 'state-gov'
-    # fnlgt: int = 201490
-    # education: str = 'bachelors'
-    # education_num: int = 9
-    # marital_status: str = 'never-married'
-    # occupation: str = 'handlers-cleaners'
-    # relationship: str = 'own-child'
-    # race: str = 'white'
-    # sex: str = 'female'
-    # capital_gain: int = 0
-    # capital_loss: int = 0
-    # hours_per_week: int = 20
-
     age: int = 50
     workclass: str = "private"
     fnlgt: int = 201490
