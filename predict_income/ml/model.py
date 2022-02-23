@@ -22,7 +22,8 @@ def train_model(X_train, y_train):
         Trained machine learning model.
     """
 
-    # Create the parameter grid based on the results of random search
+    # Create the parameter grid based on the
+    # results of random search
     param_grid = {
         "bootstrap": [True],
         "max_depth": [80, 90, 100, 110],
@@ -37,7 +38,10 @@ def train_model(X_train, y_train):
 
     # Instantiate the grid search model
     grid_search = GridSearchCV(
-        estimator=gbc, param_grid=param_grid, cv=10, n_jobs=-1, verbose=2
+        estimator=gbc,
+        param_grid=param_grid,
+        cv=10, n_jobs=-1,
+        verbose=2
     )
     # Fit the data
     grid_search.fit(X_train, y_train)
@@ -48,7 +52,8 @@ def train_model(X_train, y_train):
 
 def compute_model_metrics(y, preds):
     """
-    Validates the trained machine learning model using precision, recall, and F1.
+    Validates the trained machine learning model using
+    precision, recall, and F1.
 
     Inputs
     ------

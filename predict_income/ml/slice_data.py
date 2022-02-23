@@ -1,9 +1,11 @@
 """
-This file aims at looking into a slide of the dataset, and test the performace of every model in each slice.
+This file aims at looking into a slide of the dataset,
+and test the performace of every model in each slice.
 """
 
 import pandas as pd
-from predict_income.ml.model import compute_model_metrics, inference
+from predict_income.ml.model import compute_model_metrics, \
+    inference
 
 
 def data_slice_metric(df, X, y, model, feature):
@@ -35,7 +37,8 @@ def data_slice_metric(df, X, y, model, feature):
         metric["fbeta"].append(fbeta)
 
         print(
-            f"For value {i}, precision = {precision}, recall = {recall}, fbeta = {fbeta}"
+            f"For value {i}, precision = {precision}, "
+            f"recall = {recall}, fbeta = {fbeta}"
         )
 
     metric_df = pd.DataFrame(metric)

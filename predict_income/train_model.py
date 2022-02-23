@@ -5,7 +5,8 @@ import os
 from sklearn.model_selection import train_test_split
 
 from predict_income.ml.data import process_data
-from predict_income.ml.model import train_model, inference, compute_model_metrics
+from predict_income.ml.model import train_model, \
+    inference, compute_model_metrics
 from predict_income.ml.slice_data import data_slice_metric
 from predict_income.ml.utils import CAT_FEAT, dump_file, load_file
 
@@ -23,12 +24,18 @@ to_train = False
 train, test = train_test_split(data, test_size=0.20)
 
 X_train, y_train, encoder, lb = process_data(
-    train, categorical_features=CAT_FEAT, label="salary", training=True
+    train,
+    categorical_features=CAT_FEAT,
+    label="salary",
+    training=True
 )
 
 # Proces the test data with the process_data function.
 X_test, y_test, encoder, lb = process_data(
-    test, categorical_features=CAT_FEAT, label="salary", training=True
+    test,
+    categorical_features=CAT_FEAT,
+    label="salary",
+    training=True
 )
 
 
