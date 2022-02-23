@@ -23,7 +23,7 @@ steps:
           pip install pytest
           python -m pytest .
       - name: Run flake8
-        working-directory: ./starter
+        working-directory: ./predict_income
         run: |
           pip install flake8
           flake8 .
