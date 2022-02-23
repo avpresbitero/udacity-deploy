@@ -22,18 +22,18 @@ def test_get_status_message():
 
 def test_post_status_code():
     data = {"age": 18,
-                          "workclass": 'state-gov',
-                          "fnlgt": 201490,
-                          "education": 'bachelors',
-                          "education-num": 9,
-                          "marital-status": 'never-married',
-                          "occupation": 'handlers-cleaners',
-                          "relationship": 'own-child',
-                          "race": 'white',
-                          "sex": 'female',
-                          "capital-gain": 0,
-                          "capital-loss": 0,
-                          "hours-per-week": 20}
+          "workclass": 'state-gov',
+          "fnlgt": 201490,
+          "education": 'bachelors',
+          "education-num": 9,
+          "marital-status": 'never-married',
+          "occupation": 'handlers-cleaners',
+          "relationship": 'own-child',
+          "race": 'white',
+          "sex": 'female',
+          "capital-gain": 0,
+          "capital-loss": 0,
+          "hours-per-week": 20}
 
     with TestClient(app) as client:
         response = client.post("/predict", json=data)
@@ -63,18 +63,18 @@ def test_post_predict_greater():
 
 def test_post_predict_less():
     data = {"age": 18,
-                                "workclass": 'state-gov',
-                                "fnlgt": 201490,
-                                "education": 'bachelors',
-                                "education-num": 9,
-                                "marital-status": 'never-married',
-                                "occupation": 'handlers-cleaners',
-                                "relationship": 'own-child',
-                                "race": 'white',
-                                "sex": 'female',
-                                "capital-gain": 0,
-                                "capital-loss": 0,
-                                "hours-per-week": 20}
+            "workclass": 'state-gov',
+            "fnlgt": 201490,
+            "education": 'bachelors',
+            "education-num": 9,
+            "marital-status": 'never-married',
+            "occupation": 'handlers-cleaners',
+            "relationship": 'own-child',
+            "race": 'white',
+            "sex": 'female',
+            "capital-gain": 0,
+            "capital-loss": 0,
+            "hours-per-week": 20}
 
     with TestClient(app) as client:
         response = client.post("/predict", json=data)

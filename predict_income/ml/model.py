@@ -35,15 +35,9 @@ def train_model(X_train, y_train):
         'n_estimators': [100, 200, 300, 1000]
     }
 
-    # param_grid = {
-    #     "learning_rate": [0.01, 0.05,  0.1],
-    #     "min_samples_split": [8, 10, 12],
-    #     "min_samples_leaf": [3, 4, 5],
-    #     "max_depth": [3, 5, 8],
-    #     "n_estimators": [10, 50, 100, 200]
-    # }
     # Create a base model
     gbc = RandomForestClassifier()
+
     # Instantiate the grid search model
     grid_search = GridSearchCV(estimator=gbc, param_grid=param_grid,
                                cv=10, n_jobs=-1, verbose=2)
@@ -92,7 +86,6 @@ def inference(model, X):
     """
     predictions = model.predict(X)
     return predictions
-
 
 
 if __name__ == "__main__":
