@@ -1,3 +1,7 @@
+"""
+This file contains test codes related to the model functions.
+"""
+
 import pandas as pd
 import os
 import pytest
@@ -12,25 +16,20 @@ from sklearn.dummy import DummyClassifier
 
 CURRENT_DIRECTORY = os.path.abspath(os.path.dirname(__file__))
 
+
 @pytest.fixture(scope="module")
 def data():
-    path = os.path.join(CURRENT_DIRECTORY, '../data/clean_census.csv')
+    path = os.path.join(CURRENT_DIRECTORY, "../data/clean_census.csv")
     data = pd.read_csv(path).drop("native-country", axis=1)
 
     train, test = train_test_split(data, test_size=0.20)
 
     X_train, y_train, encoder, lb = process_data(
-        train,
-        categorical_features=CAT_FEAT,
-        label="salary",
-        training=True
+        train, categorical_features=CAT_FEAT, label="salary", training=True
     )
 
     X_test, y_test, encoder, lb = process_data(
-        test,
-        categorical_features=CAT_FEAT,
-        label="salary",
-        training=True
+        test, categorical_features=CAT_FEAT, label="salary", training=True
     )
 
     return [X_train, y_train, X_test, y_test]
@@ -65,9 +64,9 @@ def test_compute_model_metrics(predictions, data):
 
 
 def test_trained_model_artifacts():
-    MODEL = os.path.join(CURRENT_DIRECTORY, '../model/model.pkl')
-    ENCODER = os.path.join(CURRENT_DIRECTORY, '../model/encoder.pkl')
-    LB = os.path.join(CURRENT_DIRECTORY, '../model/lb.pkl')
+    MODEL = os.path.join(CURRENT_DIRECTORY, "../model/model.pkl")
+    ENCODER = os.path.join(CURRENT_DIRECTORY, "../model/encoder.pkl")
+    LB = os.path.join(CURRENT_DIRECTORY, "../model/lb.pkl")
 
     assert pl.Path(MODEL).is_file()
     assert pl.Path(ENCODER).is_file()

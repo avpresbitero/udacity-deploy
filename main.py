@@ -34,15 +34,15 @@ class Input(BaseModel):
     # hours_per_week: int = 20
 
     age: int = 50
-    workclass: str = 'private'
+    workclass: str = "private"
     fnlgt: int = 201490
-    education: str = 'doctorate'
+    education: str = "doctorate"
     education_num: int = 16
-    marital_status: str = 'married-civ-spouse'
-    occupation: str = 'prof-specialty'
-    relationship: str = 'husband'
-    race: str = 'white'
-    sex: str = 'male'
+    marital_status: str = "married-civ-spouse"
+    occupation: str = "prof-specialty"
+    relationship: str = "husband"
+    race: str = "white"
+    sex: str = "male"
     capital_gain: int = 0
     capital_loss: int = 0
     hours_per_week: int = 60
@@ -52,8 +52,10 @@ class Output(BaseModel):
     prediction: str
 
 
-app = FastAPI(title="Census Data Income Predictor",
-    description="Income classification from census data.")
+app = FastAPI(
+    title="Census Data Income Predictor",
+    description="Income classification from census data.",
+)
 
 
 @app.on_event("startup")
@@ -87,28 +89,36 @@ async def post(data: Input):
         "occupation",
         "relationship",
         "race",
-        "sex"
+        "sex",
     ]
 
-    input_data = pd.DataFrame([{"age" : data.age,
-                        "workclass" : data.workclass,
-                        "fnlgt" : data.fnlgt,
-                        "education" : data.education,
-                        "education-num" : data.education_num,
-                        "marital-status" : data.marital_status,
-                        "occupation" : data.occupation,
-                        "relationship" : data.relationship,
-                        "race" : data.race,
-                        "sex" : data.sex,
-                        "capital-gain" : data.capital_gain,
-                        "capital-loss" : data.capital_loss,
-                        "hours-per-week" : data.hours_per_week}])
+    input_data = pd.DataFrame(
+        [
+            {
+                "age": data.age,
+                "workclass": data.workclass,
+                "fnlgt": data.fnlgt,
+                "education": data.education,
+                "education-num": data.education_num,
+                "marital-status": data.marital_status,
+                "occupation": data.occupation,
+                "relationship": data.relationship,
+                "race": data.race,
+                "sex": data.sex,
+                "capital-gain": data.capital_gain,
+                "capital-loss": data.capital_loss,
+                "hours-per-week": data.hours_per_week,
+            }
+        ]
+    )
 
-    X, _, _, _ = process_data(input_data,
-                           categorical_features=cat_features,
-                           training=False,
-                              encoder=ENCODER,
-                              lb=LB)
+    X, _, _, _ = process_data(
+        input_data,
+        categorical_features=cat_features,
+        training=False,
+        encoder=ENCODER,
+        lb=LB,
+    )
 
     prediction = inference(MODEL, X)
     print(prediction)

@@ -12,7 +12,7 @@ from predict_income.ml.utils import CAT_FEAT, dump_file, load_file
 CURRENT_DIRECTORY = os.path.abspath(os.path.dirname(__file__))
 
 # Add code to load in the data.
-path = os.path.join(CURRENT_DIRECTORY, '../data/clean_census.csv')
+path = os.path.join(CURRENT_DIRECTORY, "../data/clean_census.csv")
 data = pd.read_csv(path).drop("native-country", axis=1)
 
 # set training boolean
@@ -22,20 +22,16 @@ to_train = False
 train, test = train_test_split(data, test_size=0.20)
 
 X_train, y_train, encoder, lb = process_data(
-    train, categorical_features=CAT_FEAT,
-    label="salary", training=True
+    train, categorical_features=CAT_FEAT, label="salary", training=True
 )
 
 # Proces the test data with the process_data function.
 X_test, y_test, encoder, lb = process_data(
-    test,
-    categorical_features=CAT_FEAT,
-    label="salary",
-    training=True
+    test, categorical_features=CAT_FEAT, label="salary", training=True
 )
 
 
-if to_train == True:
+if to_train:
     # Train model
     model = train_model(X_train, y_train)
 

@@ -1,25 +1,27 @@
 import pickle
 
-CAT_FEAT = ["workclass",
+CAT_FEAT = [
+    "workclass",
     "education",
     "marital-status",
     "occupation",
     "relationship",
     "race",
-    "sex",]
+    "sex",
+]
 
 
 def dump_file(PATH, MODEL):
     """
-
+    Dumps file to path using pickle.
     Parameters
     ----------
-    PATH
-    MODEL
+    PATH : path of the file to be saved
+    MODEL : file to be saved
 
     Returns
     -------
-
+    None
     """
     with open(PATH, "wb") as output_file:
         pickle.dump(MODEL, output_file)
@@ -27,14 +29,14 @@ def dump_file(PATH, MODEL):
 
 def load_file(PATH):
     """
-
+    Loads a file using pickle
     Parameters
     ----------
-    PATH
+    PATH : path of the file
 
     Returns
     -------
-
+    None
     """
     with open(PATH, "rb") as file:
         model = pickle.load(file)

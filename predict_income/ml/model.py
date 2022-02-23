@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 
-import pandas as pd
-from predict_income.ml.data import process_data
-
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
@@ -27,20 +24,21 @@ def train_model(X_train, y_train):
 
     # Create the parameter grid based on the results of random search
     param_grid = {
-        'bootstrap': [True],
-        'max_depth': [80, 90, 100, 110],
-        'max_features': [2, 3],
-        'min_samples_leaf': [3, 4, 5],
-        'min_samples_split': [8, 10, 12],
-        'n_estimators': [100, 200, 300, 1000]
+        "bootstrap": [True],
+        "max_depth": [80, 90, 100, 110],
+        "max_features": [2, 3],
+        "min_samples_leaf": [3, 4, 5],
+        "min_samples_split": [8, 10, 12],
+        "n_estimators": [100, 200, 300, 1000],
     }
 
     # Create a base model
     gbc = RandomForestClassifier()
 
     # Instantiate the grid search model
-    grid_search = GridSearchCV(estimator=gbc, param_grid=param_grid,
-                               cv=10, n_jobs=-1, verbose=2)
+    grid_search = GridSearchCV(
+        estimator=gbc, param_grid=param_grid, cv=10, n_jobs=-1, verbose=2
+    )
     # Fit the data
     grid_search.fit(X_train, y_train)
 
@@ -71,7 +69,7 @@ def compute_model_metrics(y, preds):
 
 
 def inference(model, X):
-    """ Run model inferences and return the predictions.
+    """Run model inferences and return the predictions.
 
     Inputs
     ------
@@ -86,19 +84,3 @@ def inference(model, X):
     """
     predictions = model.predict(X)
     return predictions
-
-
-if __name__ == "__main__":
-    path = 'clean_census.csv'
-    categorical_features = ['education', 'marital-status', 'relationship',
-                            'race', 'sex', 'occupation', 'workclass', 'native-country']
-    target = 'salary'
-    data_ = pd.read_csv(path)
-    X, y, encoder, lb = process_data(X=data_,
-                                     categorical_features=categorical_features,
-                                     label=target)
-
-    model = train_model(X, y)
-    predictions = inference(model, X)
-    precision, recall, fbeta = compute_model_metrics(y, predictions)
-    print(precision)

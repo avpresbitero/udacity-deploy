@@ -1,15 +1,14 @@
+"""
+This file aims at looking into a slide of the dataset, and test the performace of every model in each slice.
+"""
+
 import pandas as pd
 from predict_income.ml.model import compute_model_metrics, inference
 
 
 def data_slice_metric(df, X, y, model, feature):
     # Create dictionary
-    metric = {}
-    metric['feature'] = []
-    metric['value'] = []
-    metric['precision'] = []
-    metric['recall'] = []
-    metric['fbeta'] = []
+    metric = {"feature": [], "value": [], "precision": [], "recall": [], "fbeta": []}
 
     # Make sure that indices are in order
     df = df.reset_index(drop=True)
@@ -23,19 +22,15 @@ def data_slice_metric(df, X, y, model, feature):
         slice_predictions = inference(model, X_slice)
         precision, recall, fbeta = compute_model_metrics(y_slice, slice_predictions)
 
-        metric['feature'].append(feature)
-        metric['value'].append(i)
-        metric['precision'].append(precision)
-        metric['recall'].append(recall)
-        metric['fbeta'].append(fbeta)
+        metric["feature"].append(feature)
+        metric["value"].append(i)
+        metric["precision"].append(precision)
+        metric["recall"].append(recall)
+        metric["fbeta"].append(fbeta)
 
-        print(f"For value {i}, precision = {precision}, recall = {recall}, fbeta = {fbeta}")
+        print(
+            f"For value {i}, precision = {precision}, recall = {recall}, fbeta = {fbeta}"
+        )
 
     metric_df = pd.DataFrame(metric)
-    metric_df.to_csv(f'../data/{feature}_slice_data.csv')
-
-
-
-
-
-
+    metric_df.to_csv(f"../data/{feature}_slice_data.csv")

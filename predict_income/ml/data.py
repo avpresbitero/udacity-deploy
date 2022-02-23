@@ -5,7 +5,7 @@ from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 def process_data(
     X, categorical_features=[], label=None, training=True, encoder=None, lb=None
 ):
-    """ Process the data used in the machine learning pipeline.
+    """Process the data used in the machine learning pipeline.
 
     Processes the data using one hot encoding for the categorical features and a
     label binarizer for the labels. This can be used in either training or
@@ -68,14 +68,3 @@ def process_data(
 
     X = np.concatenate([X_continuous, X_categorical], axis=1)
     return X, y, encoder, lb
-
-
-# if __name__ == "__main__":
-#     path = 'clean_census.csv'
-#     categorical_features = ['education', 'marital-status', 'relationship',
-#                        'race', 'sex', 'occupation', 'workclass', 'native-country']
-#     target = 'salary'
-#     data = pd.read_csv(path)
-#     X, y, encoder, lb = process_data(X=data,
-#                  categorical_features=categorical_features,
-#                  label=target)
