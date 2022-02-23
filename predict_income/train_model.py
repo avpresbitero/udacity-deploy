@@ -18,7 +18,8 @@ data = pd.read_csv(path).drop("native-country", axis=1)
 # set training boolean
 to_train = False
 
-# Optional enhancement, use K-fold cross validation instead of a train-test split.
+# Optional enhancement, use K-fold cross validation instead of a
+# train-test split.
 train, test = train_test_split(data, test_size=0.20)
 
 X_train, y_train, encoder, lb = process_data(
@@ -47,5 +48,6 @@ data_slice_metric(train, X_train, y_train, model, feature="race")
 
 predictions = inference(model, X_test)
 precision, recall, fbeta = compute_model_metrics(y_test, predictions)
-#
-print(f"Overall metric: precision = {precision}, recall = {recall}, fbeta = {fbeta}")
+
+print(
+    f"Overall metric: precision = {precision}, recall = {recall}, fbeta = {fbeta}")

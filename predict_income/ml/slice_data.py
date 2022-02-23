@@ -8,7 +8,12 @@ from predict_income.ml.model import compute_model_metrics, inference
 
 def data_slice_metric(df, X, y, model, feature):
     # Create dictionary
-    metric = {"feature": [], "value": [], "precision": [], "recall": [], "fbeta": []}
+    metric = {
+        "feature": [],
+        "value": [],
+        "precision": [],
+        "recall": [],
+        "fbeta": []}
 
     # Make sure that indices are in order
     df = df.reset_index(drop=True)
@@ -20,7 +25,8 @@ def data_slice_metric(df, X, y, model, feature):
         y_slice = y[slice_labels.index.values]
 
         slice_predictions = inference(model, X_slice)
-        precision, recall, fbeta = compute_model_metrics(y_slice, slice_predictions)
+        precision, recall, fbeta = compute_model_metrics(
+            y_slice, slice_predictions)
 
         metric["feature"].append(feature)
         metric["value"].append(i)
