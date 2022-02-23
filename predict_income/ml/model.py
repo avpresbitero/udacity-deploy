@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from sklearn.metrics import fbeta_score, precision_score, recall_score
-from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 
 

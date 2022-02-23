@@ -57,4 +57,5 @@ predictions = inference(model, X_test)
 precision, recall, fbeta = compute_model_metrics(y_test, predictions)
 
 print(
-    f"Overall metric: precision = {precision}, recall = {recall}, fbeta = {fbeta}")
+    f"Overall metric: precision = {precision}, "
+    f"recall = {recall}, fbeta = {fbeta}")
