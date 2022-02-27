@@ -25,3 +25,6 @@ if __name__ == "__main__":
     )
     print(f"Status Code: {response.status_code}")
     print(response.json())
+
+    response = requests.get("https://udacity-deploy-app.herokuapp.com")
+    print(response.json())

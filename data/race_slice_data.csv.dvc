@@ -1,0 +1,5 @@
+outs:
+- md5: 6e291e3e8856051688e0ce4c0b0bf740
+  size: 385
+  path: race_slice_data.csv
+  isexec: true

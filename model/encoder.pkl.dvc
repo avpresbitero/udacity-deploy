@@ -1,0 +1,5 @@
+outs:
+- md5: b386b3b2d21b47eab7a07c67ef56fd3a
+  size: 1316
+  path: encoder.pkl
+  isexec: true

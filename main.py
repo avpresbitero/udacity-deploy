@@ -19,19 +19,38 @@ if "DYNO" in os.environ and os.path.isdir(".dvc"):
 
 
 class Input(BaseModel):
-    age: int = 50
-    workclass: str = "private"
-    fnlgt: int = 201490
-    education: str = "doctorate"
-    education_num: int = 16
-    marital_status: str = "married-civ-spouse"
-    occupation: str = "prof-specialty"
-    relationship: str = "husband"
-    race: str = "white"
-    sex: str = "male"
-    capital_gain: int = 0
-    capital_loss: int = 0
-    hours_per_week: int = 60
+    age: int
+    workclass: str
+    fnlgt: int
+    education: str
+    education_num: int
+    marital_status: str
+    occupation: str
+    relationship: str
+    race: str
+    sex: str
+    capital_gain: int
+    capital_loss: int
+    hours_per_week: int
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "age": 50,
+                "workclass": "private",
+                "fnlgt": 201490,
+                "education": "doctorate",
+                "education_num": 16,
+                "marital_status": "married-civ-spouse",
+                "occupation": "prof-specialty",
+                "relationship": "husband",
+                "race": "white",
+                "sex": "male",
+                "capital_gain": 0,
+                "capital_loss": 0,
+                "hours_per_week": 60
+            }
+        }
 
 
 class Output(BaseModel):
@@ -107,7 +126,6 @@ async def post(data: Input):
     )
 
     prediction = inference(MODEL, X)
-    print(prediction)
     if prediction[0] == 1:
         return {"prediction": "Salary > 50k"}
     else:
