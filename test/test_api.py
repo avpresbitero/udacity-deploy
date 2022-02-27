@@ -86,7 +86,7 @@ def test_post_predict_greater():
     with TestClient(app) as client:
         response = client.post("/predict", json=data)
     prediction = response.json()
-    assert prediction["prediction"] == "Salary > 50k"
+    assert prediction == {"Income": ">50K"}
 
 
 def test_post_predict_less():
@@ -115,4 +115,4 @@ def test_post_predict_less():
     with TestClient(app) as client:
         response = client.post("/predict", json=data)
     prediction = response.json()
-    assert prediction["prediction"] == "Salary <= 50k"
+    assert prediction == {"Income": "<=50K"}

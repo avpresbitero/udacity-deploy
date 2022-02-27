@@ -1,6 +1,6 @@
 # Put the code for your API here.
 from fastapi import FastAPI
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from predict_income.ml.data import process_data
 from predict_income.ml.model import inference
@@ -11,6 +11,16 @@ import os
 
 CURRENT_DIRECTORY = os.path.abspath(os.path.dirname(__file__))
 
+CAT_FEATURES = [
+        "workclass",
+        "education",
+        "marital-status",
+        "occupation",
+        "relationship",
+        "race",
+        "sex",
+    ]
+
 if "DYNO" in os.environ and os.path.isdir(".dvc"):
     os.system("dvc config core.no_scm true")
     if os.system("dvc pull -f") != 0:
@@ -18,39 +28,26 @@ if "DYNO" in os.environ and os.path.isdir(".dvc"):
     os.system("rm -r .dvc .apt/usr/lib/dvc")
 
 
-class Input(BaseModel):
-    age: int
-    workclass: str
-    fnlgt: int
-    education: str
-    education_num: int
-    marital_status: str
-    occupation: str
-    relationship: str
-    race: str
-    sex: str
-    capital_gain: int
-    capital_loss: int
-    hours_per_week: int
+class CensusData(BaseModel):
+    age: int = Field(..., example=42)
+    workclass: str = Field(..., example="private")
+    fnlgt: int = Field(..., example=5178)
+    education: str = Field(..., example="bachelors")
+    education_num: int = Field(..., example=13, alias="education-num")
+    marital_status: str = Field(
+        ..., example="married-civ-spouse", alias="marital-status"
+    )
+    occupation: str = Field(..., example="exec-managerial")
+    relationship: str = Field(..., example="husband")
+    race: str = Field(..., example="white")
+    sex: str = Field(..., example="male")
+    capital_gain: int = Field(..., example=0, alias="capital-gain")
+    capital_loss: int = Field(..., example=0, alias="capital-loss")
+    hours_per_week: int = Field(..., example=40, alias="hours-per-week")
 
-    class Config:
-        schema_extra = {
-            "example": {
-                "age": 50,
-                "workclass": "private",
-                "fnlgt": 201490,
-                "education": "doctorate",
-                "education_num": 16,
-                "marital_status": "married-civ-spouse",
-                "occupation": "prof-specialty",
-                "relationship": "husband",
-                "race": "white",
-                "sex": "male",
-                "capital_gain": 0,
-                "capital_loss": 0,
-                "hours_per_week": 60
-            }
-        }
+
+class Income(BaseModel):
+    Income: str = Field(..., example=">50K")
 
 
 class Output(BaseModel):
@@ -85,48 +82,18 @@ async def get():
     return {"message": "Hey there!"}
 
 
-@app.post("/predict")
-async def post(data: Input):
-    cat_features = [
-        "workclass",
-        "education",
-        "marital-status",
-        "occupation",
-        "relationship",
-        "race",
-        "sex",
-    ]
-
-    input_data = pd.DataFrame(
-        [
-            {
-                "age": data.age,
-                "workclass": data.workclass,
-                "fnlgt": data.fnlgt,
-                "education": data.education,
-                "education-num": data.education_num,
-                "marital-status": data.marital_status,
-                "occupation": data.occupation,
-                "relationship": data.relationship,
-                "race": data.race,
-                "sex": data.sex,
-                "capital-gain": data.capital_gain,
-                "capital-loss": data.capital_loss,
-                "hours-per-week": data.hours_per_week,
-            }
-        ]
-    )
-
+@app.post("/predict", response_model=Income)
+def predict(payload: CensusData):
+    df = pd.DataFrame.from_dict([payload.dict(by_alias=True)])
     X, _, _, _ = process_data(
-        input_data,
-        categorical_features=cat_features,
+        df, categorical_features=CAT_FEATURES,
         training=False,
-        encoder=ENCODER,
-        lb=LB,
+        encoder=ENCODER
     )
+    pred = inference(MODEL, X)
 
-    prediction = inference(MODEL, X)
-    if prediction[0] == 1:
-        return {"prediction": "Salary > 50k"}
-    else:
-        return {"prediction": "Salary <= 50k"}
+    if pred == 1:
+        prediction = ">50K"
+    elif pred == 0:
+        prediction = "<=50K"
+    return {"Income": prediction}
