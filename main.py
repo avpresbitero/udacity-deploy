@@ -28,7 +28,7 @@ if "DYNO" in os.environ and os.path.isdir(".dvc"):
     os.system("rm -r .dvc .apt/usr/lib/dvc")
 
 
-class CensusData(BaseModel):
+class Data(BaseModel):
     age: int = Field(..., example=42)
     workclass: str = Field(..., example="private")
     fnlgt: int = Field(..., example=5178)
@@ -48,11 +48,6 @@ class CensusData(BaseModel):
 
 class Income(BaseModel):
     Income: str = Field(..., example=">50K")
-
-
-class Output(BaseModel):
-    prediction: str
-
 
 app = FastAPI(
     title="Census Data Income Predictor",
@@ -83,8 +78,8 @@ async def get():
 
 
 @app.post("/predict", response_model=Income)
-def predict(payload: CensusData):
-    df = pd.DataFrame.from_dict([payload.dict(by_alias=True)])
+def predict(payment: Data):
+    df = pd.DataFrame.from_dict([payment.dict(by_alias=True)])
     X, _, _, _ = process_data(
         df, categorical_features=CAT_FEATURES,
         training=False,
